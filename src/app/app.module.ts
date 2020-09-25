@@ -11,6 +11,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormComponent } from './clientes/form.component';
 import { FormsModule } from '@angular/forms';
+import '@angular/common/locales/global/es';
 
 const routes: Routes =[
   {path: '', redirectTo: '/clientes', pathMatch:'full'},

@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 import {Cliente} from './cliente';
 import {of, Observable, throwError} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {map, catchError} from 'rxjs/operators';
+import {map, catchError, tap} from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import {Router} from '@angular/router';
+import {formatDate, DatePipe} from '@angular/common';
+
 
 @Injectable({
   providedIn: 'root'
@@ -16,11 +18,27 @@ export class ClienteService {
   
   constructor(private http: HttpClient, private router: Router) { }
 
-  getClientes(): Observable<Cliente[]> {
+  getClientes(page: number): Observable<any> {
     //return of(CLIENTES);
-    return this.http.get(this.urlEndPoint).pipe(  //--> otra forma: return this.http.get<Cliente[]>(this.urlEndPoint)
-      map(response => response as Cliente[])
-    );
+    return this.http.get(this.urlEndPoint + '/page/' + page).pipe(  //--> otra forma: return this.http.get<Cliente[]>(this.urlEndPoint)
+      tap((response: any) => {
+        (response.content as Cliente[]).forEach(cliente => {
+          console.log(cliente.nombre)
+        })
+      }),
+      map((response:any) => {
+         (response.content as Cliente[]).map(cliente =>{
+
+          cliente.nombre = cliente.nombre.toUpperCase();
+
+        //otra forma:  cliente.createAt = formatDate(cliente.createAt, 'EEEE dd, MMMM yyyy', 'en-US'); 
+          let datePipe= new DatePipe('es'); 
+          cliente.createAt=datePipe.transform(cliente.createAt, ' EEEE dd, MMMM yyyy'); 
+          return cliente;
+        });
+        return response;
+      })
+    )
   }
 
   //Hay dos formas de sacar el cliente desde back, en create se mapea la respuesta desde aquí, en update, se mapea en form.component
