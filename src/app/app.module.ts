@@ -13,6 +13,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import '@angular/common/locales/global/es';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDatepickerModule} from '@angular/material/datepicker';
+import {MatMomentDateModule} from '@angular/material-moment-adapter/';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 
 const routes: Routes =[
@@ -32,16 +36,21 @@ const routes: Routes =[
     DirectivaComponent,
     ClientesComponent,
     FormComponent,
-    PaginatorComponent
+    PaginatorComponent,
+    
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot(routes),
+    BrowserAnimationsModule,
+    MatDatepickerModule, 
+    MatMomentDateModule,
     
   ],
-  providers: [ClienteService],
-  bootstrap: [AppComponent]
+  providers: [ClienteService,
+    {provide: MAT_DATE_LOCALE, useValue: 'es'},],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

@@ -3,6 +3,7 @@ import { Cliente } from './cliente';
 import { ClienteService } from './cliente.service'
 import {Router, ActivatedRoute} from '@angular/router'
 import Swal from 'sweetalert2';
+import {MAT_MOMENT_DATE_FORMATS, MomentDateModule} from '@angular/material-moment-adapter';
 
 @Component({
   selector: 'app-form',
@@ -56,9 +57,4 @@ export class FormComponent implements OnInit {
     }
     )
   }
-
-
-
-
-
 }
